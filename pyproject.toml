@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "uriwebrtc"
+version = "0.1.0"
+description = "webrtc:// URI capability pack for urisys-node"
+readme = "README.md"
+requires-python = ">=3.10"
+license = "Apache-2.0"
+authors = [{ name = "urisys contributors" }, { name = "Tom Sapletta", email = "tom@sapletta.com" }]
+keywords = ["uri", "urisys", "uriwebrtc", "webrtc"]
+dependencies = ["urisysedge>=0.1.0"]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0", "uricore>=0.1.8"]
+
+[tool.uv.sources]
+urisysedge = { path = "../urisysedge", editable = true }
+uricore = { path = "../uricore", editable = true }
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["uriwebrtc*"]
+
+[tool.setuptools.package-data]
+uriwebrtc = ["manifest.yaml"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
