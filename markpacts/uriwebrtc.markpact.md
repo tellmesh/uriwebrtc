@@ -12,7 +12,7 @@ metadata:
   id: uriwebrtc
   version: '1'
   language: python
-description: WebRTC session mock — HTTP signaling relay and DataChannel URI envelopes.
+description: WebRTC session — HTTP signaling inbox (node) and DataChannel URI envelopes; browser P2P via ifURI.
 schemes:
 - webrtc
 capabilities:
@@ -115,6 +115,37 @@ do:
 - webrtc://local/session/default/command/start: {}
 - webrtc://local/session/default/data/command/send: {}
 - webrtc://local/session/default/signal/command/post: {}
+- webrtc://local/session/default/signal/query/inbox: { since: 0 }
+```
+
+```markdown markpact:contract
+## ifURI browser contract (duplex voice)
+
+Documented in [if-uri/app/docs/WEBRTC.md](https://github.com/if-uri/app/blob/main/docs/WEBRTC.md).
+
+### Signaling (browser ↔ browser)
+
+- Cross-peer: `POST {remote_ifuri}/api/webrtc/signal` with `{ room, from, type, data }`
+- Local poll: `GET {local_ifuri}/api/webrtc/signal?room=&since=`
+- Room: `webrtc-peer:{sorted_local_url}|{sorted_remote_url}`
+- Initiator: lexicographically smaller `local_api_url`
+
+### Data channel (`DataChannel` name `uri`)
+
+| kind | Direction | Fields |
+|------|-----------|--------|
+| `voice` | A → B | `id`, `text`, `dry_run` |
+| `voice-reply` | B → A | `id`, `ok`, `text`, `body?` |
+| `uri` | either | `uri`, `payload`, `context` |
+
+Receiver of `voice` runs local `POST /api/voice/run` (peer's urisys-node).
+
+### Node routes (this pack)
+
+Used for automation/smoke — not the browser signaling path:
+
+- `webrtc.signal.post` / `webrtc.signal.inbox` — in-process inbox mock
+- `webrtc.data.send` — records envelope without execution
 ```
 
 ```markdown markpact:docs

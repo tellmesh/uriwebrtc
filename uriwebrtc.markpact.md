@@ -9,7 +9,7 @@ metadata:
   id: uriwebrtc-pack
   version: 1.0.0
   language: python
-description: WebRTC session mock — HTTP signaling relay and DataChannel URI envelopes.
+description: WebRTC session — HTTP signaling inbox (node) and DataChannel URI envelopes; browser P2P via ifURI.
 schemes:
 - webrtc
 capabilities:
@@ -177,6 +177,10 @@ def register(rt):
 
 `webrtc://` URI capability pack — HTTP signaling relay and DataChannel URI envelopes.
 
-Standalone package (like `urihim`), consumed by `urisys-node` and `urisys-automation-lab`.
+Standalone package (like `urihim`), consumed by `urisys-node`.
+
+**Browser duplex voice** between two ifURI `/voice` instances uses ifURI `GET/POST /api/webrtc/signal` and data-channel `voice` / `voice-reply` messages — see [if-uri/app/docs/WEBRTC.md](https://github.com/if-uri/app/blob/main/docs/WEBRTC.md).
+
+Node `webrtc://` routes are for flows, smoke tests, and envelope capture — not the live browser SDP path.
 ```
 
